@@ -1,0 +1,662 @@
+<html>
+<header>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>	 
+	<title>Smart Home</title>
+<link rel="stylesheet" type="text/css" href="meow.css?<?php echo time();?>">
+<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link rel="icon" 
+      type="image/png" 
+      href="http://www.insertcoinhere.me/image/favicon.ico">
+</header>
+<body>
+<script>
+
+
+
+        checknot();
+    function checknot(){
+         jQuery.ajax({
+         type: "GET",
+         url: "http://www.fluidityhome.me/api/AlertNotifications.php?CheckNotifcation=1",
+         contentType: "application/json;",
+         dataType: "json",
+                //If GET request if successful then the divs are cleared and the data is grabbed and outputted to the divs
+         success: function (data, status, jqXHR) {
+            $( "#Alert1" ).remove();
+             $.each(data, function(v) {
+                 
+                 if(data[v].Noti >= 1){
+           
+                     $( "#sidecontrol" ).prepend( "<a onclick='goto3();' href='javascript:void(0);'><div id='Alert'><div class='textside'>"+data[v].Noti+" Alerts</div></div></a>" );
+        }else{
+            $( "#sidecontrol" ).prepend( "<a onclick='goto3();' href='javascript:void(0);'><div id='Alert1'><div class='textside'>0 Alerts</div></div></a>" );
+    
+        }
+    }
+                 
+             
+                    )}});
+    }
+
+
+
+</script>
+<div id='backgroundimage'>	
+	
+<div id='content'>
+    <div id='Curtains' class='alertinformation'><h1>Configure</h1></div>
+<div id='Curtains' class='userinformation3'>
+	<h1>
+		<center>Curtains</h1></center>
+           <center><div class="switch">
+            <input id="cmn-toggle-1" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+            <label for="cmn-toggle-1" data-on="Yes" data-off="No"></label>
+          </div>
+</center>
+</div>
+
+
+<div id='Fan' class='userinformation3'>
+	<h1>
+		<center>Fan</center>
+           <center><div class="switch">
+            <input id="cmn-toggle-2" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+            <label for="cmn-toggle-2" data-on="Yes" data-off="No"></label>
+          </div>
+</center>
+</div>
+
+<div id='Hue' class='userinformation3'>
+	<h1>
+		<center>Hue Light</center>
+           <center><div class="switch">
+            <input id="cmn-toggle-3" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+            <label for="cmn-toggle-3" data-on="Yes" data-off="No"></label>
+          </div>
+</center>
+</div>
+
+
+
+<div id='Door' class='userinformation3'>
+		<h1>
+		<center>Doors</center>
+           <center><div class="switch">
+            <input id="cmn-toggle-4" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+            <label for="cmn-toggle-4" data-on="Yes" data-off="No"></label>
+          </div>
+</center>
+</div>
+
+<div id='Temperature' class='userinformation3'>
+		<h1><center>Temprature</h1></center>
+			<center><div class="switch">
+            <input id="cmn-toggle-5" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+            <label for="cmn-toggle-5" data-on="Yes" data-off="No"></label>
+          </div>
+</center>
+			</div>
+			
+			
+<div id='Vibration' class='userinformation3'>
+		<h1>
+		<center>Floor Vibration</h1></center>
+             <center><div class="switch">
+            <input id="cmn-toggle-6" class="cmn-toggle cmn-toggle-yes-no" type="checkbox">
+            <label for="cmn-toggle-6" data-on="Yes" data-off="No"></label>
+          </div>
+</center>       
+</div>
+	
+		
+
+
+<script>function goto(){window.location.replace('SetupPage.html');}</script>
+<script>function goto1(){window.location.replace('GetProfile.html');}</script>
+<script>function goto2(){window.location.replace('function.html');}</script>
+<script>function goto3(){window.location.replace('Notification.html');}</script>
+<div id='sidecontrol'><center><a onclick="goto3();" href="javascript:void(0);"><div id='Alert1'><div class='textside'>0 Alerts</div></div></a><a onclick="goto1();" href="javascript:void(0);"><div id='ProfileButton'><div class='textside'>My Profile</div></div></a><a onclick="goto2();" href="javascript:void(0);"><div id='ProfileButton'><div class='textside'>Control</div></div></a><a onclick="goto();" href="javascript:void(0);"><div id='ProfileButton'><div class='textside'>Configure</div></div></a><div id='bottomlogo'><img  src="image/logoside.png" ></center></div></div>
+
+<script>
+//autoReadEverytime	
+	window.setInterval(function(){
+  getdata();
+}, 1000);
+	
+    
+$('#cmn-toggle-1').click(function() { 
+    if($('#cmn-toggle-1').is(':checked')){
+        var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 1, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 11, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    }
+    else{
+ var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 1, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+        
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 11, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    } 
+
+});
+    
+   
+$('#cmn-toggle-2').click(function() { 
+    if($('#cmn-toggle-2').is(':checked')){
+        var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 2, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 12, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    }
+    else{
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 2, "value": 0 ,"vhu": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+        
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 12, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    } 
+
+});
+    
+    
+       
+$('#cmn-toggle-3').click(function() { 
+    if($('#cmn-toggle-3').is(':checked')){
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 3, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 8, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    }
+    else{
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 3, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+        
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 8, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    } 
+
+});
+    
+     
+$('#cmn-toggle-4').click(function() { 
+    if($('#cmn-toggle-4').is(':checked')){
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 4, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 10, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    }
+    else{
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 4, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+        
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 10, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    } 
+
+});
+      
+      
+$('#cmn-toggle-5').click(function() { 
+    if($('#cmn-toggle-5').is(':checked')){
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 5, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+        
+        
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 6, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+   	}); 
+            
+        
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 9, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    }
+    else{
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 5, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		}); 
+        
+    jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 6, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});  
+        
+         jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 9, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});    
+    } 
+
+});
+     
+    
+       
+$('#cmn-toggle-6').click(function() { 
+    if($('#cmn-toggle-6').is(':checked')){
+var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 7, "value": 1 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});     
+    }
+    else{
+        var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+	//Send request         
+        type: "GET",	     
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceEnable.php",
+        data:{"port": 7, "value": 0 ,"houseid": myvar, "userid" : userid, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+	success: function (data, status, jqXHR) {
+            console.log("successful 1 !");
+         },
+         error: function (jqXHR, status) {
+			 console.log("error");
+         }
+
+		});   
+    } 
+
+});
+
+    
+	function getdata(){
+        var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey");    
+        jQuery.ajax({
+         
+             type: "GET",
+	     contentType: "application/json",
+         url: "http://www.fluidityhome.me/api/Service/WebApp/DeviceStatus.php",
+		 data:{"HouseID" : myvar, "userid" : userid, "loginstring" : logginstring},
+        success: function (data, status, jqXHR) {
+            
+           console.log("successful!");
+            
+             $.each(data, function(v) {
+	       if(data[v].DeviceID == 11 || data[v].Device == 1){
+              if(data[v].Active == 1){ 
+                  $('#cmn-toggle-1').prop('checked', true);	
+		      }else{
+		          $('#cmn-toggle-1').prop('checked', false);
+		      }
+              }
+	       
+                 
+            else if(data[v].DeviceID == 12 || data[v].Device == 2){
+              if(data[v].Active == 1){ 
+                  $('#cmn-toggle-2').prop('checked', true);	
+		      }else{
+		          $('#cmn-toggle-2').prop('checked', false);
+		      }
+              }
+                 else if(data[v].DeviceID == 3 || data[v].Device == 8){
+              if(data[v].Active == 1){ 
+                  $('#cmn-toggle-3').prop('checked', true);	
+		      }else{
+		          $('#cmn-toggle-3').prop('checked', false);
+		      }
+              }
+                 else if(data[v].DeviceID == 4 || data[v].Device == 10){
+              if(data[v].Active == 1){ 
+                  $('#cmn-toggle-4').prop('checked', true);	
+		      }else{
+		          $('#cmn-toggle-4').prop('checked', false);
+		      }
+              }
+                 else if(data[v].DeviceID == 5 || data[v].Device == 6 || data[v].Device == 9){
+              if(data[v].Active == 1){ 
+                  $('#cmn-toggle-5').prop('checked', true);	
+		      }else{
+		          $('#cmn-toggle-5').prop('checked', false);
+		      }
+              }
+                 else if(data[v].DeviceID == 7 ){
+              if(data[v].Active == 1){ 
+                  $('#cmn-toggle-6').prop('checked', true);	
+		      }else{
+		          $('#cmn-toggle-6').prop('checked', false);
+		      }
+              }
+                 
+            else{
+                  //nothing happen   
+                 }  
+             });
+         },
+         error: function () {
+            console.log("error");
+         }}); 
+    }
+	
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<html>
+<header>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>	 
+
+	<title>Smart Home</title>
+<link rel="stylesheet" type="text/css" href="meow.css?<?php echo time();?>">
+<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link rel="icon" 
+      type="image/png" 
+      href="http://www.insertcoinhere.me/image/favicon.ico">
+</header>
+<body>
+
+    <div id='backgroundimage'>	
+    <div id='content'>
+
+        <div id="loginhead">
+            <font size="5">
+           <p>Welcome to</p>
+<p>FluidityHome</p>
+        </div>
+        </font>
+    <div id='Notifications' class='logininformation'>
+
+    <h1>
+    <center>
+
+ Login
+    </h1>
+    <center>
+    <form name="login">
+
+ 
+    <input class="loginbox" type="text" name="userid" placeholder="Username"/>
+    <input class="loginbox" type="password" name="pswrd" placeholder="Password"/>
+    <input class="loginButton" type="button" onclick="check(this.form)" value="Login"/><input class="loginButton" type="reset" value="Cancel"/>
+    </form>
+
+
+    <script language="javascript">
+ 
+        function check(form)/*function to check userid & password*/
+        {
+            jQuery.ajax({
+                 type: "GET",
+	            contentType: "application/json",
+                url: "http://www.fluidityhome.me/api/Authenticate/Login.php",
+                data:{"username" : form.userid.value, "password" : form.pswrd.value},
+                success: function (data, status, jqXHR) {
+                    console.log("successful!");
+                    $.each(data, function(v) {
+                    if(data[v].LoginSuccess == "true"){
+                    console.log("YES!");
+                    console.log(data[v].HouseID);
+                    window.localStorage.setItem("HouseID", data[v].HouseID);
+                    window.localStorage.setItem("UserID", data[v].UserID);   
+                    window.localStorage.setItem("StringKey", data[v].LoggedInString);    
+                    window.location.replace('function.html');
+
+                }
+                else{
+                    console.log("NO!");
+                }});},
+                error: function () {
+                    console.log("error");
+                }}); 
+        }
+        
+    </script>
+        </center>	
+        </div>
+        </div>
+        <div id='sidecontrol'><center><div id='bottomlogo'><img  src="image/logoside.png" ></center></div></div>
+    </div>
+</body>
+</html>
