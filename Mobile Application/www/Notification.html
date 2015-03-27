@@ -1,0 +1,191 @@
+<html>
+<header>
+	<script>document.cookie ='cookie1=test; expires=Fri, 3 Aug 2016 20:47:11 UTC; path=/';</script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>	 
+	<title>Smart Home</title>
+<link rel="stylesheet" type="text/css" href="meow.css?<?php echo time();?>">
+<link href='http://fonts.googleapis.com/css?family=Archivo+Narrow' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+<link rel="icon" 
+      type="image/png" 
+      href="http://www.insertcoinhere.me/image/favicon.ico">
+</header>
+<body>
+ <script>
+
+ 
+
+        checknot();
+    function checknot(){
+        $( "#Alert1" ).remove();
+         jQuery.ajax({
+
+         type: "GET",
+         url: "http://www.fluidityhome.me/api/AlertNotifications.php?CheckNotifcation=1",
+         contentType: "application/json;",
+         dataType: "json",
+                //If GET request if successful then the divs are cleared and the data is grabbed and outputted to the divs
+         success: function (data, status, jqXHR) {
+            $( "#Alert1" ).remove();
+             $.each(data, function(v) {
+                 
+                 if(data[v].Noti >= 1){
+           
+                     $( "#sidecontrol" ).prepend( "<a onclick='goto3();' href='javascript:void(0);'><div id='Alert'><div class='textside'>"+data[v].Noti+" Alerts</div></div></a>" );
+        }else{
+            $( "#sidecontrol" ).prepend( "<a onclick='goto3();' href='javascript:void(0);'><div id='Alert1'><div class='textside'>0 Alerts</div></div></a>" );
+    
+        }
+    }
+                 
+             
+                    )}});
+    }
+
+
+
+</script>
+<div id='backgroundimage'>	
+	
+<div id='content'>
+
+<div id='Curtains' class='alertinformation'>
+	<h1>
+		<center>Notification<br/></h1><br></center>
+    <table border="0" cellpadding="0" width="100%" id='providersFormElementsTable'> </table>
+
+</div>
+
+
+
+<script>function goto(){window.location.replace('SetupPage.html');}</script>
+<script>function goto1(){window.location.replace('GetProfile.html');}</script>
+<script>function goto2(){window.location.replace('function.html');}</script>
+<script>function goto3(){window.location.replace('Notification.html');}</script>
+<div id='sidecontrol'><center><a onclick="goto3();" href="javascript:void(0);"><div id='Alert1'><div class='textside'>0 Alerts</div></div></a><a onclick="goto1();" href="javascript:void(0);"><div id='ProfileButton'><div class='textside'>My Profile</div></div></a><a onclick="goto2();" href="javascript:void(0);"><div id='ProfileButton'><div class='textside'>Control</div></div></a><a onclick="goto();" href="javascript:void(0);"><div id='ProfileButton'><div class='textside'>Configure</div></div></a><div id='bottomlogo'><img  src="image/logoside.png" ></center></div></div>
+
+
+
+
+<script>
+
+
+
+
+
+
+
+
+
+function deletenotification(Row){
+        
+        var TheRow = Row;
+        var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey"); 
+        alert(TheRow);
+          jQuery.ajax({
+    //Send request         
+        type: "GET",         
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Notification/DeleteNotification.php",
+        data:{ "HouseID": myvar, "userid" : userid,"RowID" : TheRow, "loginstring" : logginstring},
+    //If successfully sent then book created else book has not been         
+    success: function (data, status, jqXHR) {
+            location.reload();
+             
+         },
+         error: function (jqXHR, status) {
+            alert("meow");
+         }
+
+        }); 
+
+    }   
+
+
+
+
+  getdata();
+
+	
+
+
+
+
+
+
+
+function getdata(){
+        var myvar = window.localStorage.getItem("HouseID");
+        var userid = window.localStorage.getItem("UserID");
+        var logginstring = window.localStorage.getItem("StringKey"); 
+     jQuery.ajax({
+        type: "GET",         
+        contentType: "application/json",
+        url: "http://www.fluidityhome.me/api/Notification/Notification.php",
+        data:{"HouseID": myvar, "userid" : userid, "loginstring" : logginstring},    
+        success: function (data, status, jqXHR) {
+                          
+       
+    
+            var lighton = "Light is on after set time";
+                var tempon = "Temprature is too high/low";
+            var Dooron = "Door is open after set time";
+             $.each(data, function(v) {
+                  
+            
+                 if(data[v].Device === "1"){
+                 $("#content").append(
+                            "<div id='UserID' class='userinformation4'><table><tr><td>Device</td>                                                                                                                                                                                       <td>Light</td></tr><tr><td>Time</td><td>"+data[v].Time+"</td></tr><tr>                                                                                                                                                                                     <td>Event</td><td>"+lighton+"</td></tr></table><br><center>                                                                                                                                                                                                 <button onclick='deletenotification(this.id)' id='"+ data[v].UniqueID +                                                                                                                                                                                     "' type='button'>Click Me!</button>");
+                 }
+                 
+                  if(data[v].Device === "4"){
+                      
+                 $("#content").append(
+                            "<div id='UserID' class='userinformation4'><table><tr><td>Device</td><td>Temprature</td></tr><tr><td>Time</td><td>"+data[v].Time+"</td></tr><tr><td>Event</td><td>"+tempon+"</td></tr></table><br><button onclick='deletenotification(this.id)' id='"+ data[v].UniqueID +"' type='button'>Click Me!</button>");
+                 }
+                 
+                  if(data[v].Device === "9"){
+                 $("#content").append(
+                            "<div id='UserID' class='userinformation4'><table><tr><td>Device</td><td>Door</td></tr><tr><td>Time</td><td>"+data[v].Time+"</td></tr><tr><td>Event</td><td>"+Dooron+"</td></tr></table><br><center><button onclick='deletenotification(this.id)' id='"+ data[v].UniqueID +"' type='button'>Click Me!</button>");
+                 }
+
+                   if(data[v].Device === "8"){
+                 $("#content").append(
+                            "<div id='UserID' class='userinformation4'><table><tr><td>Device</td><td>Door</td></tr><tr><td>Time</td><td>"+data[v].Time+"</td></tr><tr><td>Event</td><td>"+Dooron+"</td></tr></table><br><center><button onclick='deletenotification(this.id)' id='"+ data[v].UniqueID +"' type='button'>Click Me!</button>");
+                 }
+                 
+    
+             });
+
+         },
+         error: function () {
+        
+            console.log("error");
+         }}); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+</script>
+</div>
+</body>
+</html>

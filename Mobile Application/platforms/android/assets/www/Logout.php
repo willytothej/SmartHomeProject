@@ -1,0 +1,1 @@
+DELETE FROM locks WHERE time_created < (UNIX_TIMESTAMP() - 600);

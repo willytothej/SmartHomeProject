@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="mysql-connector-java-5.1.33-bin.jar"/>
+	<classpathentry exported="true" kind="lib" path="phidget21.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="commons-codec-1.6.jar"/>
+	<classpathentry kind="lib" path="commons-logging-1.1.3.jar"/>
+	<classpathentry kind="lib" path="fluent-hc-4.3.6.jar"/>
+	<classpathentry kind="lib" path="httpclient-4.3.6.jar"/>
+	<classpathentry kind="lib" path="httpclient-cache-4.3.6.jar"/>
+	<classpathentry kind="lib" path="httpcore-4.3.3.jar"/>
+	<classpathentry kind="lib" path="httpmime-4.3.6.jar"/>
+	<classpathentry kind="lib" path="org.json-20120521.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
